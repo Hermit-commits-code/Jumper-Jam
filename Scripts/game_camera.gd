@@ -1,15 +1,22 @@
 extends Camera2D
 # Assigned null to player with a type of Player.
 var player:Player = null
-
+var viewport_size
 func _ready():
 	# Placing the camera at the CENTER of the width.
-	global_position.x = get_viewport_rect().size.x/2
-
+	viewport_size = get_viewport_rect().size.x/2
+	global_position.x = viewport_size
+	# Set limits
+	limit_bottom = viewport_size.y
+	limit_left = 0
+	limit_right = viewport_size.x
+	
 
 func _process(delta):
-	pass
-
+	if player:
+		var limit_distance = 420
+		if limit_bottom > player.global_position.y + limit_distance:
+			limit_bottom = player.global_position.y + limit_distance;
 func setup_camera(_player: Player):
 # Null check to prevent the player from being set to null.
 	if _player != null:
